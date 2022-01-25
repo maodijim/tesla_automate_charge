@@ -1,0 +1,21 @@
+teslaRefreshToken: eyJ...
+
+# auto start charging outside off-peak time
+autoChargeStop: false
+
+# auto start charging in off-peak time
+autoChargeStart: false
+
+# extra watt gap before increasing charging watt
+wattGap: 240
+
+# set time of use, only start monitoring during off-peak time
+# 24-hour format
+tou:
+  off-peak:
+    start: 23:00
+    end: 15:00
+
+# For Sense Plugin
+senseUser: email
+sensePass: password
