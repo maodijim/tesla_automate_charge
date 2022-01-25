@@ -6,7 +6,7 @@ Currently, only support fetching Solar Data from Sense Monitoring
 ## Build
 Build directly from the repo
 ```text
-go build -trimpath -ldflags "-w -s"             . 
+go build -trimpath -ldflags "-w -s" .
 ```
 
 Build from docker
