@@ -6,7 +6,7 @@ Currently, only support fetching Solar Data from Sense Monitoring
 ## Build
 Build directly from the repo
 ```text
-go build -trimpath -ldflags "-w -s"             . 
+go build -trimpath -ldflags "-w -s" .
 ```
 
 Build from docker
@@ -26,7 +26,7 @@ docker run --rm -v $(PWD):/go/src/builder -w /go/src/builder -e GOOS=windows -e 
 
 Build all platforms
 ```text
-docker run --rm -v $(PWD):/go/src/builder -w /go/src/builder -e GOOS=windows -e GOARCH=amd64 golang:1.17 bash build.sh
+docker run --rm -v $(PWD):/go/src/builder -w /go/src/builder golang:1.17 bash build.sh
 ```
 
 
