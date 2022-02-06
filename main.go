@@ -100,10 +100,10 @@ func main() {
 						}
 						currentVolt := chargeState.ChargerVoltage
 						currentAmp := chargeState.ChargeAmps
-						currentChargeWatt := currentAmp * currentVolt
+						//currentChargeWatt := currentAmp * currentVolt
 						chargeAmp := currentAmp - int(math.Ceil(math.Abs(extraWatt)/float64(currentVolt)))
 						chargeAmp = int(math.Max(float64(chargeAmp), 1))
-						if int(solarWatt) > currentChargeWatt && currentAmp != chargeAmp {
+						if currentAmp != chargeAmp {
 							log.Infof("lowering charging amp to %d", chargeAmp)
 							_, err = teslaApi.SetChargeAmps(chargeAmp)
 							if err != nil {
