@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/maodijim/tesla-api-go"
-	"github.com/maodijim/tesla_automated_charge_control/plugins"
-	log "github.com/sirupsen/logrus"
 	"math"
 	"net/http"
 	_ "net/http/pprof"
 	"time"
+
+	"github.com/maodijim/tesla-api-go"
+	"github.com/maodijim/tesla_automated_charge_control/plugins"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -89,7 +90,6 @@ func main() {
 							log.Errorf("failed to start charging %s", teslaApi.GetVehicleName())
 						}
 						time.Sleep(5 * time.Second)
-						continue
 					}
 				} else if extraWatt < 0 && solarWatt > 200 {
 					chargeState, err := teslaApi.ChargeState()
