@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
-	"os"
 )
 
 type ConfigTou struct {
@@ -17,6 +18,7 @@ type Configs struct {
 	AutoChargeStop    bool                 `yaml:"autoChargeStop"`
 	AutoChargeStart   bool                 `yaml:"autoChargeStart"`
 	WattGap           int                  `yaml:"wattGap"`
+	ChargeOnlyOffPeak bool                 `yaml:"chargeOnlyOffPeak"`
 }
 
 func NewConfigs(confPath string) (c Configs) {

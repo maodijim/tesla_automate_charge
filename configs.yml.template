@@ -9,6 +9,8 @@ autoChargeStart: false
 # extra watt gap before increasing charging watt
 wattGap: 240
 
+chargeOnlyOffPeak: true
+
 # set time of use, only start monitoring during off-peak time
 # 24-hour format
 tou:

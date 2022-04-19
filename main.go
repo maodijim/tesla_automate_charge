@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	ver = "v1.0.0"
+	ver = "v1.0.1"
 )
 
 func init() {
@@ -46,6 +46,7 @@ func main() {
 		log.Fatalf("failed to set active tesla vehicle: %s", err)
 	}
 	isCharging := false
+	isCharging = teslaApi.IsCharging()
 	for {
 		for _, p := range ps {
 			solarWatt := p.GetSolarWatt()
@@ -57,7 +58,8 @@ func main() {
 			// Extra watt generated from solar available for charging
 			extraWatt := solarWatt - gridWatt
 
-			if inOffPeakTou(configs.Tou) || extraWatt > 0 {
+			// Only charge when off-peak time or solar generate more electricity
+			if shouldCharge(configs, extraWatt, teslaApi) {
 
 				if extraWatt > float64(configs.WattGap) {
 					chargeState, err := teslaApi.ChargeState()
@@ -100,7 +102,7 @@ func main() {
 						}
 						currentVolt := chargeState.ChargerVoltage
 						currentAmp := chargeState.ChargeAmps
-						//currentChargeWatt := currentAmp * currentVolt
+						// currentChargeWatt := currentAmp * currentVolt
 						chargeAmp := currentAmp - int(math.Ceil(math.Abs(extraWatt)/float64(currentVolt)))
 						chargeAmp = int(math.Max(float64(chargeAmp), 1))
 						if currentAmp != chargeAmp {
@@ -126,8 +128,7 @@ func main() {
 						isCharging = false
 					}
 				}
-				log.Infof("currently not in off peak time")
-				time.Sleep(time.Minute * 15)
+				time.Sleep(time.Minute * 30)
 			}
 		}
 	}
@@ -149,6 +150,26 @@ func isPowerConnected(state tesla.ChargeState) bool {
 
 func chargeLimitReached(state tesla.ChargeState) bool {
 	return state.BatteryLevel >= state.ChargeLimitSoc
+}
+
+func shouldCharge(configs Configs, extraWatt float64, teslaApi *tesla.TeslaApi) bool {
+	if configs.ChargeOnlyOffPeak && inOffPeakTou(configs.Tou) && extraWatt > 0 {
+		log.Infof("currently in off-peak time and solar generating extra power")
+		return true
+	} else if !configs.ChargeOnlyOffPeak && extraWatt > 0 {
+		log.Infof("currently not in off-peak time but solar generating extra power")
+		return true
+	} else if teslaApi.IsCharging() && !teslaApi.IsFastCharging() {
+		if configs.AutoChargeStop && !inOffPeakTou(configs.Tou) {
+			log.Infof("currently vehicle is charging in peak time")
+			return false
+		}
+		log.Infof("currently vehicle is charging")
+		return true
+	} else {
+		log.Infof("currently not in off-peak time or soloar not generating extra power")
+		return false
+	}
 }
 
 func inOffPeakTou(tou map[string]ConfigTou) bool {
