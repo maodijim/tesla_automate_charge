@@ -21,3 +21,12 @@ tou:
 # For Sense Plugin
 senseUser: email
 sensePass: password
+
+# Manage Charging rate only at location
+# Latitude from -90 to 90 degree
+# Longitude from -180 to 180 degree
+chargeLocation:
+  latitude:
+  longitude:
+  # Optional radius in meters
+  radius:

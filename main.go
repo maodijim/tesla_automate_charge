@@ -9,6 +9,7 @@ import (
 	"github.com/maodijim/tesla-api-go"
 	"github.com/maodijim/tesla_automated_charge_control/plugins"
 	log "github.com/sirupsen/logrus"
+	"github.com/umahmood/haversine"
 )
 
 const (
@@ -58,7 +59,7 @@ func main() {
 			// Extra watt generated from solar available for charging
 			extraWatt := solarWatt - gridWatt
 
-			// Only charge when off-peak time or solar generate more electricity
+			// Only charge when off-peak time or solar generate more electricity or within the charging location
 			if shouldCharge(configs, extraWatt, teslaApi) {
 
 				if extraWatt > float64(configs.WattGap) {
@@ -123,7 +124,15 @@ func main() {
 				time.Sleep(time.Minute * 3)
 			} else {
 				if isCharging {
-					err = stopCharging(teslaApi)
+					var err error
+					if configs.IsLocationSet() && isWithinChargeLocation(teslaApi, configs) {
+						log.Infof("%s is within charging location", teslaApi.GetVehicleName())
+						err = stopCharging(teslaApi)
+					} else if configs.IsLocationSet() && !isWithinChargeLocation(teslaApi, configs) {
+						log.Infof("%s is not within charging location skip stop charing", teslaApi.GetVehicleName())
+					} else {
+						err = stopCharging(teslaApi)
+					}
 					if err == nil {
 						isCharging = false
 					}
@@ -153,6 +162,17 @@ func chargeLimitReached(state tesla.ChargeState) bool {
 }
 
 func shouldCharge(configs Configs, extraWatt float64, teslaApi *tesla.TeslaApi) bool {
+	if configs.IsLocationSet() {
+		withinRange := isWithinChargeLocation(teslaApi, configs)
+		// skip charging management if vehicle is not within charging location
+		if !withinRange {
+			log.Warnf("%s is not within %f meters of charging location",
+				teslaApi.GetVehicleName(),
+				configs.ChargeLocation.Radius,
+			)
+			return false
+		}
+	}
 	if configs.ChargeOnlyOffPeak && inOffPeakTou(configs.Tou) && extraWatt > 0 {
 		log.Infof("currently in off-peak time and solar generating extra power")
 		return true
@@ -215,4 +235,23 @@ func inOffPeakTou(tou map[string]ConfigTou) bool {
 	} else {
 		return true
 	}
+}
+
+func isWithinChargeLocation(teslaApi *tesla.TeslaApi, configs Configs) bool {
+	if !configs.IsLocationSet() {
+		return false
+	}
+	ds, _ := teslaApi.DriveState()
+	distance := calculateDistance(ds.Latitude, ds.Longitude, configs)
+	return distance < configs.ChargeLocation.Radius
+}
+
+// Calculate distance between vehicle location and charging station location
+// return distance in meters
+func calculateDistance(dsLat, dsLon float64, configs Configs) (distance float64) {
+	p1 := haversine.Coord{Lat: dsLat, Lon: dsLon}
+	p2 := haversine.Coord{Lat: configs.ChargeLocation.Lat, Lon: configs.ChargeLocation.Lon}
+	_, distance = haversine.Distance(p1, p2)
+	distance = distance * 1000
+	return distance
 }

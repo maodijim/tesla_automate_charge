@@ -99,3 +99,36 @@ func Test_inOffPeakTou(t *testing.T) {
 		})
 	}
 }
+
+func Test_calculateDistance(t *testing.T) {
+	type args struct {
+		dsLat   float64
+		dsLon   float64
+		configs Configs
+	}
+	tests := []struct {
+		name           string
+		args           args
+		withinDistance float64
+	}{
+		{
+			name: "Test the distance from location",
+			args: args{
+				dsLat: 40.6892566,
+				dsLon: -74.044766,
+				configs: Configs{ChargeLocation: ChargeLocation{
+					Lat: 40.6892568,
+					Lon: -74.044776,
+				}},
+			},
+			withinDistance: 300,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotDistance := calculateDistance(tt.args.dsLat, tt.args.dsLon, tt.args.configs); gotDistance > tt.withinDistance {
+				t.Errorf("isWithinChargeLocation() = %v, want less than %v", gotDistance, tt.withinDistance)
+			}
+		})
+	}
+}
