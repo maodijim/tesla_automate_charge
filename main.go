@@ -90,7 +90,7 @@ func main() {
 						log.Infof("start charging %s", teslaApi.GetVehicleName())
 						_, err = teslaApi.ChargeStart()
 						if err != nil {
-							log.Errorf("failed to start charging %s", teslaApi.GetVehicleName())
+							log.Errorf("failed to start charging %s: %s", teslaApi.GetVehicleName(), err)
 						}
 						time.Sleep(5 * time.Second)
 					}

@@ -6,10 +6,10 @@ github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keL
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
 github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/maodijim/sense-api v0.0.7 h1:yX4v2LRo+p02UuyEGazqjI1yPN2dCh2Iz92T569i/Ko=
-github.com/maodijim/sense-api v0.0.7/go.mod h1:1zMiZ/gE6bPz5TEdvKgdeZYZU3iZcunPkQc/f99ffaI=
-github.com/maodijim/tesla-api-go v0.2.3 h1:yr87Ne6cng1BMSElX44oKj/ZFRYGyigaDON2U345Hpk=
-github.com/maodijim/tesla-api-go v0.2.3/go.mod h1:TosJjJPh/jKLueHeS+o5gxDjs4gpFn2UM8JvKW+qA1w=
+github.com/maodijim/sense-api v0.0.8 h1:jKmAKZ7PUHum6H/Npl9PdEkWk3XTKWoAa9CBISuQyyI=
+github.com/maodijim/sense-api v0.0.8/go.mod h1:1zMiZ/gE6bPz5TEdvKgdeZYZU3iZcunPkQc/f99ffaI=
+github.com/maodijim/tesla-api-go v0.2.5 h1:oGNOAm4gP6YwxQAFwc93WlmY8YDE41Fsi1Bjb+aG784=
+github.com/maodijim/tesla-api-go v0.2.5/go.mod h1:TosJjJPh/jKLueHeS+o5gxDjs4gpFn2UM8JvKW+qA1w=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
@@ -33,7 +33,5 @@ golang.org/x/sys v0.0.0-20210423082822-04245dca01da h1:b3NXsE2LusjYGGjL5bxEVZZOR
 golang.org/x/sys v0.0.0-20210423082822-04245dca01da/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
-gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b h1:h8qDotaEPuJATrMmW04NCwg7v22aHH28wwpauUhK9Oo=
-gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
-gopkg.in/yaml.v3 v3.0.0-20220512140231-539c8e751b99 h1:dbuHpmKjkDzSOMKAWl10QNlgaZUd3V1q99xc81tt2Kc=
-gopkg.in/yaml.v3 v3.0.0-20220512140231-539c8e751b99/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
